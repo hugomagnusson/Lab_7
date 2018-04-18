@@ -17,23 +17,29 @@ public class PairSet {
 		int color;
 		int value;
 		
-		int i = 0;
+		pairs[0] = new Pair(rand.nextInt(rows), rand.nextInt(cols));
+		
+		int i = 1;
 		
 		while(i < n){
+			//System.out.println("i= " + i);
 			
-			color = rand.nextInt(3);
-			value = rand.nextInt(12);
+			color = rand.nextInt(rows);
+			value = rand.nextInt(cols);
+			boolean found = false;
 			
-			for(int c = 0; c <= i - 1; c++){
+			for(int c = 0; c < i; c++){
 				
-				if(color == pairs[i].first() && value == pairs[i].second()){
+				if(color == pairs[c].first() && value == pairs[c].second()){
+					found = true;
 					break;
 				}
-				else{
-					pairs[i] = new Pair(color, value);
-					i++;
-					break;
-				}
+				
+			}
+			
+			if (!found) {
+				pairs[i] = new Pair(color, value);
+				i++;
 			}
 		}
 		
@@ -59,10 +65,21 @@ public class PairSet {
 	/** Hämtar ett slumpmässigt valt talpar ur mängden. Mängden
 	 	blir ett element mindre. Om mängden är tom returneras null. */
 	public Pair pick() {
+		
+		if (more()) {
 		int element = rand.nextInt(n);
-		Pair temp = pairs[element];
+		Pair pick = pairs[element];
 		pairs[element] = pairs[n - 1];
 		n--;
-		return temp;
+		return pick;
+		}
+		else {
+			return null;
+		}
+	}
+	
+	public String check() {
+		String check = "Antal kort: " + n + "  Första element: " + pairs[0] + "  Sista element: " + pairs[n - 1];
+		return check;
 	}
 }
